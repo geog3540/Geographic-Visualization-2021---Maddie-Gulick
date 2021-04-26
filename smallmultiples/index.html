@@ -118,13 +118,13 @@
 	// TODO: Change the variables below to customize the small multiples interface for your data
 	var polygonJSONFile = 'data/Minn_retry.geojson'
 	// change the projection if needed *d3.geoAlbers()*
-	var projection = d3.geo();
+	var projection = d3.geoAlbers();
 	var widthheightRatio = 0.6;
 	// Relative placement of legend that ranges between 0 and 1.
 	// 0 is the start, whereas 1 i the end of each panel.
 	// If you want to put the legend on the left, then use 0.
 	// legendY = 0.5 puts the legend in the middle of the Y Axis.
-	var legendX = 0.84, legendY = 0.5
+	var legendX = 0.7, legendY = 0.5
 
 	// id attribute and the name attribute to be used in the tooltip
 	var idAttribute = 'CTY_NAME', nameAttribute = 'CTY_NAME';
@@ -223,8 +223,8 @@ var multiplyBy = [];
 
 		// Set up the legend dimensions and style
 		var holdLegend = d3.legendColor()
-		.shapeWidth(15)
-		.shapeHeight(5)
+		.shapeWidth(20)
+		.shapeHeight(10)
 		.shapePadding(10)
 		.orient('vertical')
 		.labelFormat(d3.format(att1format))
@@ -362,12 +362,12 @@ var multiplyBy = [];
 						panel.select('.legendQuant').call(holdLegend.scale(current_scale));
 
 						// add north arrow
-						// panel
-						// .append('path')
-						// .attr('id', 'arrow')
-						// .attr("d", "M 6 0 12 12 6 9 0 12")
-						// .attr('fill', "black")
-						// .attr("transform", "translate(" + margin.left + "," + margin.top + ") rotate("+ 0 +")");
+	panel
+						 .append('path')
+						 .attr('id', 'arrow')
+						 .attr("d", "M 6 0 12 12 6 9 0 12")
+						.attr('fill', "black")
+						 .attr("transform", "translate(" + margin.left + "," + margin.top + ") rotate("+ 0 +")");
 
 					}); // end for each
 				});
