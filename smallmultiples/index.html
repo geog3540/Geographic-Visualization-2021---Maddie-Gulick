@@ -37,9 +37,9 @@
 					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="../shortbio.html">About</a></li>
-							<li><a href="../files/koylu_cv_23.pdf">Resume</a></li>
+							<li><a href="../files/Maddie_CV.pdf">Resume</a></li>
 							<li class="divider"></li>
-							<li><a href="caglar-koylu@uiowa.edu">Contact</a></li>
+							<li><a href="maddiegulick@gmail.com">Contact</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -58,7 +58,7 @@
 			<hr />
 			<div class="row">
 				<div class="col-sm-4">
-					<p>Data from <a href="data.iowa.gov">mn.gov</a>, maps by Maddie Gulick.</p>
+					<p>Data from <a href="data.iowa.gov">Data.Iowa.gov</a>, maps by Ryan Larson & Caglar Koylu.</p>
 				</div>
 				<div class='col-sm-8 mapButtons'>
 					<span class="pull-right">
@@ -82,12 +82,12 @@
 			<br />
 			<div class="row">
 				<div class="col-sm-6">
-					<span><p><h3 class='mapTitle'>Population Under Five Years Old</h3>Percentage of residents under five years old in Minnesota counties.</p></span>
+					<span><p><h3 class='mapTitle'>Population Under Five Years Old</h3>Percentage of residents under five years old in Minnesota counties (2010-2019).</p></span>
 					<div id="divMap1"></div>
 					<div id="divHist1"></div>
 				</div>
 				<div class="col-sm-6">
-					<h3 class='mapTitle'>Population Over Sixty-Two</h3><p>Percentage of residents sixty-five years or older in Minnesota counties.</p>
+					<h3 class='mapTitle'>Population Over Sixty-Twp</h3><p>Percentage of residents sixty-five years or older in Minnesota counties (2010-2019).</p>
 					<div id="divMap2"></div>
 					<div id="divHist2"></div>
 				</div>
@@ -95,12 +95,12 @@
 
 			<div class="row">
 				<div class="col-sm-6">
-					<h3 class='mapTitle'>Hispanic/Latino Population</h3><p>Percentage of residents that are Hispanic/Latino in Minnesota counties.</p>
+					<h3 class='mapTitle'>Hispanic/Latino Population</h3><p>Percentage of residents that are Hispanic/Latino in Minnesota counties (2010-2019).</p>
 					<div id="divMap3"></div>
 					<div id="divHist3"></div>
 				</div>
 				<div class="col-sm-6">
-					<h3 class='mapTitle'>Husband/Wife Family Households</h3><p>Percentage of husband/wife with family households in Minnesota counties.</p>
+					<h3 class='mapTitle'>Husband/Wife Family Households</h3><p>Percentage of husband/wife with family households in Minnesota counties (2010-2019).</p>
 					<div id="divMap4"></div>
 					<div id="divHist4"></div>
 				</div>
@@ -116,18 +116,18 @@
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// TODO: Change the variables below to customize the small multiples interface for your data
-	var polygonJSONFile = 'data/Minn_retry.geojson'
+	var polygonJSONFile = 'data/Shp_Data.json'
 	// change the projection if needed *d3.geoAlbers()*
 	var projection = d3.geoAlbers();
-	var widthheightRatio = 0.6;
+	var widthheightRatio = 0.4;
 	// Relative placement of legend that ranges between 0 and 1.
 	// 0 is the start, whereas 1 i the end of each panel.
 	// If you want to put the legend on the left, then use 0.
 	// legendY = 0.5 puts the legend in the middle of the Y Axis.
-	var legendX = .7, legendY = 0.5
+	var legendX = 0.84, legendY = 0.5
 
 	// id attribute and the name attribute to be used in the tooltip
-	var idAttribute = 'CTY_FIPS', nameAttribute = 'CTY_NAME';
+	var idAttribute = 'CTY_NAME_1', nameAttribute = 'County';
 
 	// Find the abbreviations of color names from https://colorbrewer2.org/
 	var colors =  colorbrewer.PuBuGn;
@@ -139,20 +139,22 @@
 	// att1format: enter the d3.format string to display the variables in the format you like
 	// Check this link on how to specify the desired format:
 	// https://observablehq.com/@d3/d3-format
-	var att1 = 'Data7_HD02_S002', att1alias = '% of Population <5 Years Old', att1format = '.1f',
-	att2 = 'Data7_HD02_S024', att2alias =  '% of Population 62+', att2format = '.1f',
-	att3 = 'Data7_HD02_S107', att3alias = '% of Population Hispanic/Latino', att3format = '.1f',
-	att4 = 'Data7_HD02_S153', att4alias = '% Husband/Wife Households', att4format = '.1f';
+	var att1 = 'HD02_S002', att1alias = '% of Population <5 Years Old', att1format = '.0f',
+	att2 = 'HD02_S024', att2alias =  '% of Population 62+', att2format = '.0f',
+	att3 = 'HD02_S107', att3alias = '% of Population Hispanic/Latino', att3format = '.0f',
+	att4 = 'HD02_S153', att4alias = '% Husband/Wife Households', att4format = '.0f';
 
   // enter below all variables that should be normalized. If you would like to multiple the variables
 	// with a constant value enter them in multiplyBy array. If there is no need for multiplication,
 	// simply enter 1 for each value in multiplyBy.
-//var divideBy = ['Population', 'Population'];
+  //var attributesToBeNormalized = [,];
+//	var multiplyBy = [10000, 100];
+	//var divideBy = ['Population', 'Population'];
 	// if your variables are not raw counts and they are already normalized, comment out above, and
 	//uncomment below:
-var attributesToBeNormalized = [];
-var multiplyBy = [];
-var divideBy = [];
+	// var attributesToBeNormalized = [];
+	// var multiplyBy = [];
+	// var divideBy = [];
 
 	//DO NOT CHANGE ANYTHING BELOW THIS POINT UNLESS YOU KNOW WHAT YOU ARE DOING
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -221,9 +223,9 @@ var divideBy = [];
 
 		// Set up the legend dimensions and style
 		var holdLegend = d3.legendColor()
-		.shapeWidth(12)
-		.shapeHeight(10)
-		.shapePadding(5)
+		.shapeWidth(15)
+		.shapeHeight(5)
+		.shapePadding(10)
 		.orient('vertical')
 		.labelFormat(d3.format(att1format))
 		.useClass(false)
@@ -360,12 +362,12 @@ var divideBy = [];
 						panel.select('.legendQuant').call(holdLegend.scale(current_scale));
 
 						// add north arrow
-					panel
-						 .append('path')
-						.attr('id', 'arrow')
-					 .attr("d", "M 6 0 12 12 6 9 0 12")
-						.attr('fill', "black")
-						 .attr("transform", "translate(" + margin.left + "," + margin.top + ") rotate("+ 0 +")");
+						// panel
+						// .append('path')
+						// .attr('id', 'arrow')
+						// .attr("d", "M 6 0 12 12 6 9 0 12")
+						// .attr('fill', "black")
+						// .attr("transform", "translate(" + margin.left + "," + margin.top + ") rotate("+ 0 +")");
 
 					}); // end for each
 				});
@@ -508,7 +510,7 @@ var divideBy = [];
 
 						holdLegend = d3.legendColor()
 						.shapeWidth(15)
-						.shapeHeight(20)
+						.shapeHeight(5)
 						.shapePadding(10)
 						.orient('vertical')
 						.labelFormat(d3.format(d.form))
